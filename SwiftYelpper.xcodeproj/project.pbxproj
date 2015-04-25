@@ -17,6 +17,7 @@
 		535A7F501AEA19B2007A1AB8 /* PlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535A7F4F1AEA19B2007A1AB8 /* PlaceCell.swift */; };
 		535A7F531AEA19D1007A1AB8 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535A7F521AEA19D1007A1AB8 /* Place.swift */; };
 		535A7F551AEA1F3A007A1AB8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 535A7F541AEA1F3A007A1AB8 /* CoreLocation.framework */; };
+		536873031AEB6FD9002F737F /* UIImageView+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536873021AEB6FD9002F737F /* UIImageView+Utils.swift */; };
 		DD3B99543942C8F593252519 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C6AC991AD2E2BAA8B8611C4 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 		535A7F4F1AEA19B2007A1AB8 /* PlaceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceCell.swift; sourceTree = "<group>"; };
 		535A7F521AEA19D1007A1AB8 /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		535A7F541AEA1F3A007A1AB8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		536873021AEB6FD9002F737F /* UIImageView+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Utils.swift"; sourceTree = "<group>"; };
 		54EE9F472B09A7823B33FCF9 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		5C6AC991AD2E2BAA8B8611C4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C93D21F8A75B105D4727B1FE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 		533603AF1AE71F050058A05B /* SwiftYelpper */ = {
 			isa = PBXGroup;
 			children = (
+				536873011AEB6FB3002F737F /* Extensions */,
 				535A7F511AEA19BD007A1AB8 /* Models */,
 				535A7F4E1AEA1959007A1AB8 /* Views */,
 				535A7F4B1AEA17B2007A1AB8 /* ViewControllers */,
@@ -164,6 +167,14 @@
 				535A7F521AEA19D1007A1AB8 /* Place.swift */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		536873011AEB6FB3002F737F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				536873021AEB6FD9002F737F /* UIImageView+Utils.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		A76A7E240B61155513393885 /* Frameworks */ = {
@@ -314,6 +325,7 @@
 				533603B31AE71F050058A05B /* AppDelegate.swift in Sources */,
 				535A7F4D1AEA185E007A1AB8 /* ListingViewController.swift in Sources */,
 				535A7F501AEA19B2007A1AB8 /* PlaceCell.swift in Sources */,
+				536873031AEB6FD9002F737F /* UIImageView+Utils.swift in Sources */,
 				535A7F531AEA19D1007A1AB8 /* Place.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
