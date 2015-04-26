@@ -18,26 +18,32 @@ class FilterViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
+
     var expanded = [Int: Bool]() // if filter index exists, it's expanded
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let navigationController = navigationController {
-            navigationController.navigationBar.barTintColor = UIColor.yelpperRedColor()
-            navigationController.navigationBar.tintColor = UIColor.whiteColor()
-            navigationController.navigationBar.barStyle = .Black
-        }
-
         tableView.dataSource = self
         tableView.delegate = self
+
+        updateObjectStyles()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
+    func updateObjectStyles() {
+        if let navigationController = navigationController {
+            navigationController.navigationBar.barTintColor = UIColor.yelpperRedColor()
+            navigationController.navigationBar.tintColor = UIColor.whiteColor()
+            navigationController.navigationBar.barStyle = .Black
+        }
+        cancelButton.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(13)], forState: UIControlState.Normal)
+    }
 
     /*
     // MARK: - Navigation

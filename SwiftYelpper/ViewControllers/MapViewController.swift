@@ -17,15 +17,25 @@ class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
 
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        updateObjectStyles()
+        updateMapAnnotations()
+    }
+
+    func updateObjectStyles() {
         if let navigationController = navigationController {
             navigationController.navigationBar.barTintColor = UIColor.yelpperRedColor()
             navigationController.navigationBar.tintColor = UIColor.whiteColor()
             navigationController.navigationBar.barStyle = .Black
         }
+        cancelButton.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(13)], forState: UIControlState.Normal)
+    }
 
+    func updateMapAnnotations() {
         if let location = location, places = places {
             var distance: CLLocationDistance = Place.convertToMeter(0.5)
             var viewRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, distance, distance)

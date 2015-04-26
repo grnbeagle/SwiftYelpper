@@ -28,6 +28,8 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
     var searchView: UIView?
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var filterButton: UIBarButtonItem!
+    @IBOutlet weak var mapButton: UIBarButtonItem!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,9 +44,8 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
-        tableView.separatorInset = UIEdgeInsetsZero
-        tableView.layoutMargins = UIEdgeInsetsZero
 
+        updateObjectStyles()
         createSearchBarView()
         createLoadingIcon()
 
@@ -70,6 +71,14 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
         navigationItem.titleView = searchField
     }
 
+    func updateObjectStyles() {
+        tableView.separatorInset = UIEdgeInsetsZero
+        tableView.layoutMargins = UIEdgeInsetsZero
+
+        filterButton.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(13)], forState: UIControlState.Normal)
+        mapButton.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(13)], forState: UIControlState.Normal)
+    }
+
     func createLoadingIcon() {
         var tableFooterView = UIView(frame: CGRectMake(0, 0, view.frame.width, 50))
         var loadingView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
@@ -77,20 +86,6 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
         loadingView.center = tableFooterView.center
         tableFooterView.addSubview(loadingView)
         tableView.tableFooterView = tableFooterView
-    }
-
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        searchTerm = textField.text
-        search()
-        return true
-    }
-
-    func textFieldShouldClear(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        searchTerm = ""
-        search()
-        return true
     }
 
     func search() {
@@ -119,15 +114,8 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
         })
     }
 
-
-
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-
         var navigationController = segue.destinationViewController as? UINavigationController
         if let navigationController = navigationController {
             var filterVC = navigationController.viewControllers[0] as? FilterViewController
@@ -141,6 +129,7 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension ListingViewController: UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let places = places {
@@ -156,6 +145,7 @@ extension ListingViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - UITableViewDelegate
 extension ListingViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if isLoading! {
@@ -170,6 +160,22 @@ extension ListingViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath) as? PlaceCell
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-//        cell?.setHighlighted(true, animated: true)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension ListingViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        searchTerm = textField.text
+        search()
+        return true
+    }
+
+    func textFieldShouldClear(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        searchTerm = ""
+        search()
+        return true
     }
 }

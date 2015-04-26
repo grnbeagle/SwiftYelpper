@@ -127,6 +127,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="filterButton" destination="lt7-tr-63i" id="qJv-Rk-JgY"/>
+                        <outlet property="mapButton" destination="QtO-q8-MLR" id="HqV-NZ-D0d"/>
                         <outlet property="tableView" destination="jSE-Fe-s5S" id="hCP-rW-U7f"/>
                     </connections>
                 </viewController>
@@ -202,6 +204,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="cancelButton" destination="l9n-yc-4Nb" id="2zv-j3-Xxd"/>
                         <outlet property="tableView" destination="Tc5-Y3-4rl" id="a4A-16-OYU"/>
                     </connections>
                 </viewController>
@@ -245,7 +248,7 @@
             </objects>
             <point key="canvasLocation" x="1143" y="317"/>
         </scene>
-        <!--Map View Controller-->
+        <!--Map-->
         <scene sceneID="hRV-1i-Xc3">
             <objects>
                 <viewController id="vw5-gJ-76L" customClass="MapViewController" customModule="SwiftYelpper" customModuleProvider="target" sceneMemberID="viewController">
@@ -257,13 +260,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="NiV-mO-zQh">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="NiV-mO-zQh">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="NiV-mO-zQh" firstAttribute="leading" secondItem="oU1-YR-izp" secondAttribute="leadingMargin" constant="-16" id="LJB-hH-F1J"/>
+                            <constraint firstItem="TDn-HL-Hrw" firstAttribute="top" secondItem="NiV-mO-zQh" secondAttribute="bottom" id="duQ-yW-8Yv"/>
+                            <constraint firstItem="NiV-mO-zQh" firstAttribute="top" secondItem="oU1-YR-izp" secondAttribute="topMargin" id="dyC-fG-op0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="NiV-mO-zQh" secondAttribute="trailing" constant="-16" id="g7O-UR-aPq"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="CJh-lO-qNx">
+                    <navigationItem key="navigationItem" title="Map" id="CJh-lO-qNx">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="lYY-Nu-ggt">
                             <connections>
                                 <action selector="cancel:" destination="vw5-gJ-76L" id="iNR-eM-NKp"/>
@@ -271,6 +280,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="cancelButton" destination="lYY-Nu-ggt" id="mpS-VR-5hb"/>
                         <outlet property="mapView" destination="NiV-mO-zQh" id="sYa-aA-I8a"/>
                     </connections>
                 </viewController>
