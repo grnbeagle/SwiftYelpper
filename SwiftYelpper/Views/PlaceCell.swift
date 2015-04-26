@@ -23,6 +23,9 @@ class PlaceCell: UITableViewCell {
 
         self.separatorInset = UIEdgeInsetsZero
         self.layoutMargins = UIEdgeInsetsZero
+
+        placeImageView.layer.cornerRadius = 3
+        placeImageView.clipsToBounds = true
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -42,7 +45,8 @@ class PlaceCell: UITableViewCell {
         if let categories = place.categories {
             categoriesLabel.text = categories[0][0] as? String
         }
-        ratingCountLabel.text = "\(place.reviewCount!)"
+        var review = place.reviewCount > 1 ? "reviews" : "review"
+        ratingCountLabel.text = "\(place.reviewCount!) \(review)"
         distanceLabel.text = String(format: "%0.1f mi", arguments: [place.distance!])
     }
 }

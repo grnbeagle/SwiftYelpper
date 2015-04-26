@@ -15,7 +15,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+
+        var navigationController = self.window!.rootViewController as? UINavigationController
+        if let navigationController = navigationController {
+            navigationController.navigationBar.barTintColor = UIColor.yelpperRedColor()
+        }
+
         return true
     }
 

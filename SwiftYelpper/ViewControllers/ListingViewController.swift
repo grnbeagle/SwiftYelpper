@@ -9,23 +9,28 @@
 import UIKit
 import CoreLocation
 
-class ListingViewController: UIViewController {
+class ListingViewController: UIViewController, UITextFieldDelegate {
 
     let yelpConsumerKey = "U2QFU5uHJxGv-AJ5AETcZQ"
     let yelpConsumerSecret = "dC0s_eZ9k8n4lL-HkIXf0s_6Yag"
     let yelpToken = "83WWEIxzNfHFU6sEcdApE1uz_9T00-FR"
     let yelpTokenSecret = "ntw6alKMfabeHK1k4sLhN9IkomU"
 
-    var searchTerm = "food"
+    var yelpClient: YelpClient?
+    var searchTerm = ""
     var currentLocation: CLLocation?
     var offset = 0
     var filters = NSDictionary()
     var places: [Place]?
 
+    var searchView: UIView?
+
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        yelpClient = YelpClient(consumerKey: yelpConsumerKey, consumerSecret: yelpConsumerSecret, accessToken: yelpToken, accessSecret: yelpTokenSecret)
 
         currentLocation = CLLocation(latitude: 37.7873589, longitude: -122.408227)!
         tableView.dataSource = self
@@ -34,9 +39,49 @@ class ListingViewController: UIViewController {
         tableView.separatorInset = UIEdgeInsetsZero
         tableView.layoutMargins = UIEdgeInsetsZero
 
-        var client = YelpClient(consumerKey: yelpConsumerKey, consumerSecret: yelpConsumerSecret, accessToken: yelpToken, accessSecret: yelpTokenSecret)
+        createSearchView()
+        search()
+    }
 
-        client.searchWithTerm(searchTerm, filters: filters, location: currentLocation!, offset: offset,
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    func createSearchView() {
+        //var containerView = UIView(frame: CGRectMake(0, 0, view.frame.width, 40))
+        var searchField = UITextField(frame: CGRectMake(0, 0, view.frame.width - 100, 30))
+        searchField.delegate = self
+        searchField.placeholder = "Search"
+        searchField.text = searchTerm
+        searchField.font = UIFont.systemFontOfSize(14)
+        searchField.backgroundColor = UIColor.whiteColor()
+        searchField.borderStyle = UITextBorderStyle.RoundedRect
+        searchField.clearButtonMode = UITextFieldViewMode.WhileEditing
+        searchField.autocorrectionType = UITextAutocorrectionType.No
+
+        var filterButton = UIBarButtonItem(title: "Filter", style: UIBarButtonItemStyle.Plain, target: self, action: "showFilter")
+
+        navigationItem.titleView = searchField
+        navigationItem.leftBarButtonItem = filterButton
+    }
+
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        searchTerm = textField.text
+        search()
+        return true
+    }
+
+    func textFieldShouldClear(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        searchTerm = ""
+        search()
+        return true
+    }
+
+    func search() {
+        yelpClient!.searchWithTerm(searchTerm, filters: filters, location: currentLocation!, offset: offset,
             success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
                 if let data = response as? Dictionary<String, AnyObject> {
                     let businesses = data["businesses"] as? [NSDictionary]
@@ -48,14 +93,8 @@ class ListingViewController: UIViewController {
             },
             failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
                 println(error)
-            })
+        })
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
 
     /*
     // MARK: - Navigation
