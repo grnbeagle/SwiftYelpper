@@ -11,10 +11,22 @@ import Foundation
 class Filter {
     var title: String
     var entries: [Dictionary<String, String>]
+    var defaultValue: String
+    var currentValue: String
 
-    init(title: String, entries: [Dictionary<String, String>]) {
+    init(title: String, entries: [Dictionary<String, String>], defaultValue: String) {
         self.title = title
         self.entries = entries
+        self.defaultValue = defaultValue
+        self.currentValue = ""
+    }
+
+    func getCurrentValue() -> String {
+        if currentValue.isEmpty {
+            return defaultValue
+        } else {
+            return currentValue
+        }
     }
 
     class func getDistanceOptions() -> [Dictionary<String, String>] {
@@ -39,9 +51,9 @@ class Filter {
 
     class func getCategories() -> [Dictionary<String, String>] {
         let categories = [
-            ["name" : "African", "code": "african"],
-            ["name" : "American, New", "code": "newamerican"],
-            ["name" : "American, Traditional", "code": "tradamerican"],
+            ["name" : "African", "value": "african"],
+            ["name" : "American, New", "value": "newamerican"],
+            ["name" : "American, Traditional", "value": "tradamerican"],
         ]
         return categories
     }

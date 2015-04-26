@@ -42,7 +42,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Count" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V0N-83-fJp">
-                                                    <rect key="frame" x="194" y="36" width="34" height="15"/>
+                                                    <rect key="frame" x="194" y="38" width="34" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -83,7 +83,7 @@
                                                 <constraint firstItem="R7c-f0-ZqW" firstAttribute="top" secondItem="Z9x-0c-7P3" secondAttribute="bottom" constant="3" id="bo8-Zc-mcb"/>
                                                 <constraint firstItem="AAB-ym-puk" firstAttribute="leading" secondItem="gxa-9o-wEL" secondAttribute="leadingMargin" id="epW-TD-vIx"/>
                                                 <constraint firstItem="T9n-dW-1zL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VSz-N3-Sas" secondAttribute="trailing" constant="10" id="fB2-8d-rdv"/>
-                                                <constraint firstItem="V0N-83-fJp" firstAttribute="top" secondItem="VSz-N3-Sas" secondAttribute="bottom" constant="5" id="hBS-oB-qLk"/>
+                                                <constraint firstItem="V0N-83-fJp" firstAttribute="top" secondItem="VSz-N3-Sas" secondAttribute="bottom" constant="7" id="hBS-oB-qLk"/>
                                                 <constraint firstItem="T9n-dW-1zL" firstAttribute="top" secondItem="gxa-9o-wEL" secondAttribute="topMargin" constant="8" id="hW9-GD-mal"/>
                                                 <constraint firstItem="VSz-N3-Sas" firstAttribute="leading" secondItem="AAB-ym-puk" secondAttribute="trailing" constant="8" id="kWd-I7-ONY"/>
                                                 <constraint firstItem="Z9x-0c-7P3" firstAttribute="leading" secondItem="AAB-ym-puk" secondAttribute="trailing" constant="8" id="kr8-Sr-SsH"/>

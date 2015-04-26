@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var navigationController = self.window!.rootViewController as? UINavigationController
         if let navigationController = navigationController {
             navigationController.navigationBar.barTintColor = UIColor.yelpperRedColor()
+            navigationController.navigationBar.tintColor = UIColor.whiteColor()
         }
 
         return true
