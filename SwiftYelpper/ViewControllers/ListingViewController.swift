@@ -22,6 +22,7 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
     var offset = 0
     var filters = NSDictionary()
     var places: [Place]?
+    var isLoading: Bool?
 
     var searchView: UIView?
 
@@ -31,9 +32,12 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
 
         yelpClient = YelpClient(consumerKey: yelpConsumerKey, consumerSecret: yelpConsumerSecret, accessToken: yelpToken, accessSecret: yelpTokenSecret)
+        isLoading = false
+        places = []
 
         currentLocation = CLLocation(latitude: 37.7873589, longitude: -122.408227)!
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
         tableView.separatorInset = UIEdgeInsetsZero
@@ -83,10 +87,12 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
     func search() {
         yelpClient!.searchWithTerm(searchTerm, filters: filters, location: currentLocation!, offset: offset,
             success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+                self.isLoading = false
                 if let data = response as? Dictionary<String, AnyObject> {
                     let businesses = data["businesses"] as? [NSDictionary]
                     if let businesses = businesses {
-                        self.places = Place.placesWithArray(businesses)
+                        self.places! += Place.placesWithArray(businesses)
+                        self.offset = self.places!.count
                         self.tableView.reloadData()
                     }
                 }
@@ -95,6 +101,8 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
                 println(error)
         })
     }
+
+
 
     // MARK: - Navigation
 
@@ -106,7 +114,6 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
         var filterVC = segue.destinationViewController as? FilterViewController
         
     }
-
 }
 
 extension ListingViewController: UITableViewDataSource {
@@ -121,5 +128,17 @@ extension ListingViewController: UITableViewDataSource {
         let place = places![indexPath.row]
         cell.setPlace(place)
         return cell
+    }
+}
+
+extension ListingViewController: UITableViewDelegate {
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if isLoading! {
+            return
+        }
+        if indexPath.row >= self.places!.count - 5 {
+            isLoading = true
+            search()
+        }
     }
 }

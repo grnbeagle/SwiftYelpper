@@ -43,7 +43,8 @@ class YelpClient: BDBOAuth1RequestOperationManager {
 
         var parameters: [String: AnyObject] = [
             "term": term,
-            "ll": "\(location.coordinate.latitude),\(location.coordinate.longitude)"
+            "ll": "\(location.coordinate.latitude),\(location.coordinate.longitude)",
+            "offset": offset
         ]
         return self.GET("search", parameters: parameters, success: success, failure: failure)
     }
