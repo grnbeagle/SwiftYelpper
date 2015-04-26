@@ -128,8 +128,16 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
 
-        var filterVC = segue.destinationViewController as? FilterViewController
-        
+        var navigationController = segue.destinationViewController as? UINavigationController
+        if let navigationController = navigationController {
+            var filterVC = navigationController.viewControllers[0] as? FilterViewController
+            var mapVC = navigationController.viewControllers[0] as? MapViewController
+
+            if mapVC != nil {
+                mapVC!.location = currentLocation
+                mapVC!.places = places
+            }
+        }
     }
 }
 
@@ -157,5 +165,11 @@ extension ListingViewController: UITableViewDelegate {
             isLoading = true
             search()
         }
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as? PlaceCell
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+//        cell?.setHighlighted(true, animated: true)
     }
 }

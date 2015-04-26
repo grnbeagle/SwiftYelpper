@@ -20,7 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let navigationController = navigationController {
             navigationController.navigationBar.barTintColor = UIColor.yelpperRedColor()
             navigationController.navigationBar.tintColor = UIColor.whiteColor()
+            navigationController.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: "HelveticaNeue-UltraLight", size: 12)! ]
         }
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
 
         return true
     }

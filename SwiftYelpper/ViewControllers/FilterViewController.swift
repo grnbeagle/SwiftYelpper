@@ -23,6 +23,12 @@ class FilterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if let navigationController = navigationController {
+            navigationController.navigationBar.barTintColor = UIColor.yelpperRedColor()
+            navigationController.navigationBar.tintColor = UIColor.whiteColor()
+            navigationController.navigationBar.barStyle = .Black
+        }
+
         tableView.dataSource = self
         tableView.delegate = self
     }

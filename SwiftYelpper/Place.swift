@@ -58,4 +58,13 @@ class Place {
         }
         return places
     }
+
+    class func convertToMiles(meters: Double) -> Double {
+        return meters/1609
+    }
+
+    class func convertToMeter(miles: Double) -> Double {
+        return miles * 1609
+    }
+
 }

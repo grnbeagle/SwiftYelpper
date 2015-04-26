@@ -31,7 +31,9 @@ class PlaceCell: UITableViewCell {
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
+        var selectedBackgroundView = UIView(frame: self.frame)
+        selectedBackgroundView.backgroundColor = UIColor.yelpperLightGrayColor()
+        self.selectedBackgroundView = selectedBackgroundView
     }
 
     func setPlace(place: Place) {

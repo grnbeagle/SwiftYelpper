@@ -32,10 +32,10 @@ class Filter {
     class func getDistanceOptions() -> [Dictionary<String, String>] {
         let options = [
             ["name": "Auto", "value": "auto"],
-            ["name": "1 mile", "value": "\(Filter.convertToMeter(1))"],
-            ["name": "5 mile", "value": "\(Filter.convertToMeter(5))"],
-            ["name": "10 mile", "value": "\(Filter.convertToMeter(10))"],
-            ["name": "20 mile", "value": "\(Filter.convertToMeter(20))"]
+            ["name": "1 mile", "value": "\(Place.convertToMeter(1))"],
+            ["name": "5 mile", "value": "\(Place.convertToMeter(5))"],
+            ["name": "10 mile", "value": "\(Place.convertToMeter(10))"],
+            ["name": "20 mile", "value": "\(Place.convertToMeter(20))"]
         ]
         return options
     }
@@ -102,7 +102,4 @@ class Filter {
 //    ["name" : "Vegetarian", "code": "vegetarian"],
 //    ["name" : "Wraps", "code": "wraps"]
 
-    class func convertToMeter(miles: Float) -> Float {
-        return miles * 1609
-    }
 }
