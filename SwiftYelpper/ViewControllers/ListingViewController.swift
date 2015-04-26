@@ -120,10 +120,18 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
         if let navigationController = navigationController {
             var filterVC = navigationController.viewControllers[0] as? FilterViewController
             var mapVC = navigationController.viewControllers[0] as? MapViewController
-
             if mapVC != nil {
                 mapVC!.location = currentLocation
                 mapVC!.places = places
+            }
+        } else {
+            var detailsVC = segue.destinationViewController as? PlaceDetailsViewController
+            if let detailsVC = detailsVC {
+                let cell = sender as! UITableViewCell
+                let indexPath = tableView.indexPathForCell(cell)!
+                if places?.count > indexPath.row {
+                    detailsVC.place = places![indexPath.row]
+                }
             }
         }
     }
@@ -151,7 +159,7 @@ extension ListingViewController: UITableViewDelegate {
         if isLoading! {
             return
         }
-        if indexPath.row >= self.places!.count - 5 {
+        if indexPath.row >= self.places!.count - 1 {
             isLoading = true
             search()
         }
