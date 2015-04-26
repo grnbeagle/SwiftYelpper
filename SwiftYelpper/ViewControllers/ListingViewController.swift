@@ -60,10 +60,10 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
         searchField.clearButtonMode = UITextFieldViewMode.WhileEditing
         searchField.autocorrectionType = UITextAutocorrectionType.No
 
-        var filterButton = UIBarButtonItem(title: "Filter", style: UIBarButtonItemStyle.Plain, target: self, action: "showFilter")
+        //var filterButton = UIBarButtonItem(title: "Filter", style: UIBarButtonItemStyle.Plain, target: self, action: "showFilter")
 
         navigationItem.titleView = searchField
-        navigationItem.leftBarButtonItem = filterButton
+        //navigationItem.leftBarButtonItem = filterButton
     }
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -96,15 +96,16 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
         })
     }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+
+        var filterVC = segue.destinationViewController as? FilterViewController
+        
     }
-    */
 
 }
 
