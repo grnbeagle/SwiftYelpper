@@ -36,13 +36,13 @@ class PlaceCell: UITableViewCell {
         ratingView.image = nil
 
         nameLabel.text = place.name
-        addressLabel.text = place.displayAddress
+        addressLabel.text = place.address
         placeImageView.loadAsync(place.imageThumbUrl!, animate: true, failure: nil)
         ratingView.loadAsync(place.imageRatingUrl!, animate: false, failure: nil)
         if let categories = place.categories {
             categoriesLabel.text = categories[0][0] as? String
         }
         ratingCountLabel.text = "\(place.reviewCount!)"
-        distanceLabel.text = "\(place.distance!)"
+        distanceLabel.text = String(format: "%0.1f mi", arguments: [place.distance!])
     }
 }

@@ -29,6 +29,8 @@ class ListingViewController: UIViewController {
 
         currentLocation = CLLocation(latitude: 37.7873589, longitude: -122.408227)!
         tableView.dataSource = self
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 120
         tableView.separatorInset = UIEdgeInsetsZero
         tableView.layoutMargins = UIEdgeInsetsZero
 
