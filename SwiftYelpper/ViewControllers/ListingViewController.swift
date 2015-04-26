@@ -17,12 +17,13 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
     let yelpTokenSecret = "ntw6alKMfabeHK1k4sLhN9IkomU"
 
     var yelpClient: YelpClient?
-    var searchTerm = ""
+    var searchTerm = "Restaurants"
     var currentLocation: CLLocation?
     var offset = 0
     var filters = NSDictionary()
     var places: [Place]?
     var isLoading: Bool?
+    var isInitialLoad = true
 
     var searchView: UIView?
 
@@ -35,6 +36,7 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
         isLoading = false
         places = []
 
+        tableView.hidden = true
         currentLocation = CLLocation(latitude: 37.7873589, longitude: -122.408227)!
         tableView.dataSource = self
         tableView.delegate = self
@@ -43,7 +45,9 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
         tableView.separatorInset = UIEdgeInsetsZero
         tableView.layoutMargins = UIEdgeInsetsZero
 
-        createSearchView()
+        createSearchBarView()
+        createLoadingIcon()
+
         search()
     }
 
@@ -52,8 +56,7 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
 
-    func createSearchView() {
-        //var containerView = UIView(frame: CGRectMake(0, 0, view.frame.width, 40))
+    func createSearchBarView() {
         var searchField = UITextField(frame: CGRectMake(0, 0, view.frame.width - 100, 30))
         searchField.delegate = self
         searchField.placeholder = "Search"
@@ -64,10 +67,16 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
         searchField.clearButtonMode = UITextFieldViewMode.WhileEditing
         searchField.autocorrectionType = UITextAutocorrectionType.No
 
-        //var filterButton = UIBarButtonItem(title: "Filter", style: UIBarButtonItemStyle.Plain, target: self, action: "showFilter")
-
         navigationItem.titleView = searchField
-        //navigationItem.leftBarButtonItem = filterButton
+    }
+
+    func createLoadingIcon() {
+        var tableFooterView = UIView(frame: CGRectMake(0, 0, view.frame.width, 50))
+        var loadingView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+        loadingView.startAnimating()
+        loadingView.center = tableFooterView.center
+        tableFooterView.addSubview(loadingView)
+        tableView.tableFooterView = tableFooterView
     }
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -85,9 +94,13 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
     }
 
     func search() {
+        if isInitialLoad {
+            MBProgressHUD.showHUDAddedTo(view, animated: true)
+        }
         yelpClient!.searchWithTerm(searchTerm, filters: filters, location: currentLocation!, offset: offset,
             success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
                 self.isLoading = false
+                self.isInitialLoad = false
                 if let data = response as? Dictionary<String, AnyObject> {
                     let businesses = data["businesses"] as? [NSDictionary]
                     if let businesses = businesses {
@@ -96,9 +109,13 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
                         self.tableView.reloadData()
                     }
                 }
+                self.tableView.hidden = false
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
             },
             failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
                 println(error)
+                self.tableView.hidden = false
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
         })
     }
 
