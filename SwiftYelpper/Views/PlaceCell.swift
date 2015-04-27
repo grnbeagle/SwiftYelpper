@@ -49,6 +49,6 @@ class PlaceCell: UITableViewCell {
         }
         var review = place.reviewCount > 1 ? "reviews" : "review"
         ratingCountLabel.text = "\(place.reviewCount!) \(review)"
-        distanceLabel.text = String(format: "%0.1f mi", arguments: [place.distance!])
+        distanceLabel.text = String(format: "%0.1f mi", arguments: [Place.convertToMiles(place.distance!)])
     }
 }

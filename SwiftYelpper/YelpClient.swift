@@ -36,7 +36,7 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         return self.GET("search", parameters: parameters, success: success, failure: failure)
     }
 
-    func searchWithTerm(term: String, filters: NSDictionary,
+    func searchWithTerm(term: String, filters: [String: AnyObject],
         location: CLLocation, offset: NSInteger,
         success: (AFHTTPRequestOperation!, AnyObject!) -> Void,
         failure: (AFHTTPRequestOperation!, NSError!) -> Void) -> AFHTTPRequestOperation! {
@@ -46,6 +46,10 @@ class YelpClient: BDBOAuth1RequestOperationManager {
             "ll": "\(location.coordinate.latitude),\(location.coordinate.longitude)",
             "offset": offset
         ]
+        for (k, v) in filters {
+            parameters.updateValue(v, forKey: k)
+        }
+        println(parameters)
         return self.GET("search", parameters: parameters, success: success, failure: failure)
     }
     

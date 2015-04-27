@@ -24,6 +24,10 @@ class PlaceDetailsViewController: UIViewController {
         super.viewDidLoad()
 
         if let place = place {
+            navigationItem.title = place.name
+            navigationItem.leftBarButtonItem?.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(13)], forState: UIControlState.Normal)
+            navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+
             nameLabel.text = place.name
             addressLabel.text = place.displayAddress
             placeImageView.loadAsync(place.imageThumbUrl!, animate: true, failure: nil)

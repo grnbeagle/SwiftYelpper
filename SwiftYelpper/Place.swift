@@ -15,7 +15,7 @@ class Place {
     var imageThumbUrl: NSURL?
     var imageRatingUrl: NSURL?
     var categories: [AnyObject]?
-    var distance: Float?
+    var distance: Double?
     var reviewCount: Int?
 
     init() {
@@ -48,7 +48,7 @@ class Place {
 
         categories = dict["categories"] as? [AnyObject]
         reviewCount = dict["review_count"] as? Int
-        distance = dict["distance"] as? Float
+        distance = dict["distance"] as? Double
     }
 
     class func placesWithArray(array: [NSDictionary]) -> [Place] {
@@ -60,11 +60,11 @@ class Place {
     }
 
     class func convertToMiles(meters: Double) -> Double {
-        return meters/1609
+        return round(meters/1609)
     }
 
     class func convertToMeter(miles: Double) -> Double {
-        return miles * 1609
+        return round(miles * 1609)
     }
 
 }

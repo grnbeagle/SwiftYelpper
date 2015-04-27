@@ -15,7 +15,8 @@ extension UIImageView {
 
             var request = NSURLRequest(URL: url, cachePolicy: NSURLRequestCachePolicy.ReturnCacheDataElseLoad, timeoutInterval: 5)
             self.setImageWithURLRequest(request, placeholderImage: nil, success: { (request, response, image) -> Void in
-                if animate {
+                var isCached = request == nil
+                if !isCached && animate {
                     if let weakSelf = weakSelf {
                         weakSelf.alpha = 0.0
                         weakSelf.image = image

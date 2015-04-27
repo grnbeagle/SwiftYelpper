@@ -20,7 +20,7 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
     var searchTerm = "Restaurants"
     var currentLocation: CLLocation?
     var offset = 0
-    var filters = NSDictionary()
+    var filters = [String: AnyObject]()
     var places: [Place]?
     var isLoading: Bool?
     var isInitialLoad = true
@@ -100,8 +100,11 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
                     let businesses = data["businesses"] as? [NSDictionary]
                     if let businesses = businesses {
                         self.places! += Place.placesWithArray(businesses)
-                        self.offset = self.places!.count
                         self.tableView.reloadData()
+                        if self.offset == 0 {
+                            self.tableView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: false)
+                        }
+                        self.offset = self.places!.count
                     }
                 }
                 self.tableView.hidden = false
@@ -118,11 +121,13 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         var navigationController = segue.destinationViewController as? UINavigationController
         if let navigationController = navigationController {
-            var filterVC = navigationController.viewControllers[0] as? FilterViewController
-            var mapVC = navigationController.viewControllers[0] as? MapViewController
+            var filterVC = navigationController.topViewController as? FilterViewController
+            var mapVC = navigationController.topViewController as? MapViewController
             if mapVC != nil {
                 mapVC!.location = currentLocation
                 mapVC!.places = places
+            } else if filterVC != nil {
+                filterVC!.delegate = self
             }
         } else {
             var detailsVC = segue.destinationViewController as? PlaceDetailsViewController
@@ -174,16 +179,21 @@ extension ListingViewController: UITableViewDelegate {
 // MARK: - UITextFieldDelegate
 extension ListingViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
+        places = []
+        offset = 0
         textField.resignFirstResponder()
         searchTerm = textField.text
         search()
         return true
     }
+}
 
-    func textFieldShouldClear(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        searchTerm = ""
+// MARK: - FilterViewControllerDelegate
+extension ListingViewController: FilterViewControllerDelegate {
+    func filterViewController(filterViewController: FilterViewController, didUpdateFilters filters: [String : AnyObject]) {
+        places = []
+        offset = 0
+        self.filters = filters
         search()
-        return true
     }
 }

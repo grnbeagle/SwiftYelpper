@@ -8,29 +8,48 @@
 
 import Foundation
 
+enum FilterType {
+    case Toggle
+    case Single
+    case Multiple
+}
 class Filter {
     var title: String
-    var entries: [Dictionary<String, String>]
-    var defaultValue: String
-    var currentValue: String
+    var filterKey: String
+    var entries: [[String: String]]
+    var selectedEntry: [String: String]?
+    var filterType: FilterType
 
-    init(title: String, entries: [Dictionary<String, String>], defaultValue: String) {
+    init(title: String, filterKey: String, entries: [[String: String]], filterType: FilterType) {
         self.title = title
+        self.filterKey = filterKey
         self.entries = entries
-        self.defaultValue = defaultValue
-        self.currentValue = ""
+        self.selectedEntry = nil
+        self.filterType = filterType
     }
 
-    func getCurrentValue() -> String {
-        if currentValue.isEmpty {
-            return defaultValue
+    func getSelectedEntry() -> [String: String]? {
+        if let selectedEntry = selectedEntry {
+            return selectedEntry
         } else {
-            return currentValue
+            if filterType == .Single {
+                // for Single type, return the first item as a default value
+                return entries[0]
+            } else {
+                return nil
+            }
         }
     }
 
-    class func getDistanceOptions() -> [Dictionary<String, String>] {
-        let options = [
+    class func getMostPopularOptions() -> [[String: String]] {
+        let options: [[String: String]] = [
+            ["name": "Offering a Deal", "value": "true"],
+        ]
+        return options
+    }
+
+    class func getDistanceOptions() -> [[String: String]] {
+        let options: [[String: String]] = [
             ["name": "Auto", "value": "auto"],
             ["name": "1 mile", "value": "\(Place.convertToMeter(1))"],
             ["name": "5 mile", "value": "\(Place.convertToMeter(5))"],
@@ -40,8 +59,8 @@ class Filter {
         return options
     }
 
-    class func getSortOptions() -> [Dictionary<String, String>] {
-        let options = [
+    class func getSortOptions() -> [[String: String]] {
+        let options: [[String: String]] = [
             ["name": "Best match", "value": "0"],
             ["name": "Distance", "value": "1"],
             ["name": "Highest rated", "value": "2"],
@@ -49,57 +68,51 @@ class Filter {
         return options
     }
 
-    class func getCategories() -> [Dictionary<String, String>] {
-        let categories = [
+    class func getCategories() -> [[String: String]] {
+        let categories: [[String: String]] = [
             ["name" : "African", "value": "african"],
             ["name" : "American, New", "value": "newamerican"],
             ["name" : "American, Traditional", "value": "tradamerican"],
+            ["name" : "Asian Fusion", "value": "asianfusion"],
+            ["name" : "Beer Garden", "value": "beergarden"],
+            ["name" : "Belgian", "value": "belgian"],
+            ["name" : "Brasseries", "value": "brasseries"],
+            ["name" : "Brazilian", "value": "brazilian"],
+            ["name" : "Cafes", "value": "cafes"],
+            ["name" : "Cafeteria", "value": "cafeteria"],
+            ["name" : "Chinese", "value": "chinese"],
+            ["name" : "Dumplings", "value": "dumplings"],
+            ["name" : "Eastern European", "value": "eastern_european"],
+            ["name" : "Ethiopian", "value": "ethiopian"],
+            ["name" : "Fast Food", "value": "hotdogs"],
+            ["name" : "French", "value": "french"],
+            ["name" : "Hawaiian", "value": "hawaiian"],
+            ["name" : "Indian", "value": "indpak"],
+            ["name" : "Indonesian", "value": "indonesian"],
+            ["name" : "Irish", "value": "irish"],
+            ["name" : "Japanese", "value": "japanese"],
+            ["name" : "Jewish", "value": "jewish"],
+            ["name" : "Korean", "value": "korean"],
+            ["name" : "Kosher", "value": "kosher"],
+            ["name" : "Mexican", "value": "mexican"],
+            ["name" : "Persian/Iranian", "value": "persian"],
+            ["name" : "Peruvian", "value": "peruvian"],
+            ["name" : "Pizza", "value": "pizza"],
+            ["name" : "Russian", "value": "russian"],
+            ["name" : "Salad", "value": "salad"],
+            ["name" : "Sandwiches", "value": "sandwiches"],
+            ["name" : "Scandinavian", "value": "scandinavian"],
+            ["name" : "Seafood", "value": "seafood"],
+            ["name" : "Soul Food", "value": "soulfood"],
+            ["name" : "Soup", "value": "soup"],
+            ["name" : "Spanish", "value": "spanish"],
+            ["name" : "Steakhouses", "value": "steak"],
+            ["name" : "Tapas Bars", "value": "tapas"],
+            ["name" : "Thai", "value": "thai"],
+            ["name" : "Turkish", "value": "turkish"],
+            ["name" : "Vegetarian", "value": "vegetarian"],
+            ["name" : "Wraps", "value": "wraps"]
         ]
         return categories
     }
-
-//    ["name" : "African", "code": "african"],
-//    ["name" : "American, New", "code": "newamerican"],
-//    ["name" : "American, Traditional", "code": "tradamerican"],
-//    ["name" : "Asian Fusion", "code": "asianfusion"],
-//    ["name" : "Beer Garden", "code": "beergarden"],
-//    ["name" : "Belgian", "code": "belgian"],
-//    ["name" : "Brasseries", "code": "brasseries"],
-//    ["name" : "Brazilian", "code": "brazilian"],
-//    ["name" : "Breakfast & Brunch", "code": "breakfast_brunch"],
-//    ["name" : "Cafes", "code": "cafes"],
-//    ["name" : "Cafeteria", "code": "cafeteria"],
-//    ["name" : "Chinese", "code": "chinese"],
-//    ["name" : "Dumplings", "code": "dumplings"],
-//    ["name" : "Eastern European", "code": "eastern_european"],
-//    ["name" : "Ethiopian", "code": "ethiopian"],
-//    ["name" : "Fast Food", "code": "hotdogs"],
-//    ["name" : "French", "code": "french"],
-//    ["name" : "Hawaiian", "code": "hawaiian"],
-//    ["name" : "Indian", "code": "indpak"],
-//    ["name" : "Indonesian", "code": "indonesian"],
-//    ["name" : "Irish", "code": "irish"],
-//    ["name" : "Japanese", "code": "japanese"],
-//    ["name" : "Jewish", "code": "jewish"],
-//    ["name" : "Korean", "code": "korean"],
-//    ["name" : "Kosher", "code": "kosher"],
-//    ["name" : "Mexican", "code": "mexican"],
-//    ["name" : "Persian/Iranian", "code": "persian"],
-//    ["name" : "Peruvian", "code": "peruvian"],
-//    ["name" : "Pizza", "code": "pizza"],
-//    ["name" : "Russian", "code": "russian"],
-//    ["name" : "Salad", "code": "salad"],
-//    ["name" : "Sandwiches", "code": "sandwiches"],
-//    ["name" : "Scandinavian", "code": "scandinavian"],
-//    ["name" : "Seafood", "code": "seafood"],
-//    ["name" : "Soul Food", "code": "soulfood"],
-//    ["name" : "Soup", "code": "soup"],
-//    ["name" : "Spanish", "code": "spanish"],
-//    ["name" : "Steakhouses", "code": "steak"],
-//    ["name" : "Tapas Bars", "code": "tapas"],
-//    ["name" : "Thai", "code": "thai"],
-//    ["name" : "Turkish", "code": "turkish"],
-//    ["name" : "Vegetarian", "code": "vegetarian"],
-//    ["name" : "Wraps", "code": "wraps"]
-
 }
