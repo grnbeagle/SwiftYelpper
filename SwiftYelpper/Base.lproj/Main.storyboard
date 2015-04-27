@@ -211,6 +211,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="cancelButton" destination="l9n-yc-4Nb" id="2zv-j3-Xxd"/>
+                        <outlet property="searchButton" destination="5pA-Qe-5q0" id="dN0-ZD-Nx3"/>
                         <outlet property="tableView" destination="Tc5-Y3-4rl" id="a4A-16-OYU"/>
                     </connections>
                 </viewController>

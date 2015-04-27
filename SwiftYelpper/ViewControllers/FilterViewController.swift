@@ -27,6 +27,7 @@ class FilterViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
 
     @IBOutlet weak var cancelButton: UIBarButtonItem!
+    @IBOutlet weak var searchButton: UIBarButtonItem!
 
     var expanded = [Int: Bool]() // if filter index exists, it's expanded
 
@@ -53,6 +54,7 @@ class FilterViewController: UIViewController {
             navigationController.navigationBar.barStyle = .Black
         }
         cancelButton.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(13)], forState: UIControlState.Normal)
+        searchButton.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFontOfSize(13)], forState: UIControlState.Normal)
 
         tableView.separatorInset = UIEdgeInsetsZero
         tableView.layoutMargins = UIEdgeInsetsZero
