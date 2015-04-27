@@ -22,6 +22,7 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
     var filters = [String: AnyObject]()
     var places: [Place]?
     var isLoading: Bool?
+    var stopFetching: Bool?
     var isInitialLoad = true
 
     var searchView: UIView?
@@ -39,7 +40,7 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
 
         yelpClient = YelpClient(consumerKey: yelpConsumerKey, consumerSecret: yelpConsumerSecret, accessToken: yelpToken, accessSecret: yelpTokenSecret)
         isLoading = false
-        places = []
+        resetSearch()
 
         tableView.hidden = true
         tableView.dataSource = self
@@ -126,6 +127,9 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
                     if let businesses = businesses {
                         println("\(businesses.count) found")
                         self.tableView.tableFooterView?.hidden = (businesses.count == 0)
+                        if businesses.count == 0 {
+                            self.stopFetching = true
+                        }
                         self.places! += Place.placesWithArray(businesses)
                         self.tableView.reloadData()
                         if self.offset == 0 {
@@ -142,6 +146,12 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
                 self.tableView.hidden = true
                 MBProgressHUD.hideHUDForView(self.view, animated: true)
         })
+    }
+
+    func resetSearch() {
+        places = []
+        offset = 0
+        stopFetching = false
     }
 
     // MARK: - Navigation
@@ -191,7 +201,7 @@ extension ListingViewController: UITableViewDelegate {
         if isLoading! {
             return
         }
-        if indexPath.row >= self.places!.count - 1 {
+        if indexPath.row >= self.places!.count - 1 && !stopFetching! {
             isLoading = true
             search()
         }
@@ -206,8 +216,7 @@ extension ListingViewController: UITableViewDelegate {
 // MARK: - UITextFieldDelegate
 extension ListingViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        places = []
-        offset = 0
+        resetSearch()
         textField.resignFirstResponder()
         searchTerm = textField.text
         search()
@@ -218,8 +227,8 @@ extension ListingViewController: UITextFieldDelegate {
 // MARK: - FilterViewControllerDelegate
 extension ListingViewController: FilterViewControllerDelegate {
     func filterViewController(filterViewController: FilterViewController, didUpdateFilters filters: [String : AnyObject]) {
-        places = []
-        offset = 0
+        resetSearch()
+        searchTerm = ""
         self.filters = filters
         search()
     }
