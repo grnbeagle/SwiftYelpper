@@ -228,7 +228,6 @@ extension ListingViewController: UITextFieldDelegate {
 extension ListingViewController: FilterViewControllerDelegate {
     func filterViewController(filterViewController: FilterViewController, didUpdateFilters filters: [String : AnyObject]) {
         resetSearch()
-        searchTerm = ""
         self.filters = filters
         search()
     }
