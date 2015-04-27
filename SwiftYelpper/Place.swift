@@ -33,7 +33,7 @@ class Place {
 
         var displayAddressArray = dict.valueForKeyPath("location.display_address") as? [String]
         if let displayAddressArray = displayAddressArray {
-            displayAddress = " ".join(displayAddressArray)
+            displayAddress = ", ".join(displayAddressArray)
         }
 
         var urlString = dict.valueForKeyPath("image_url") as? String

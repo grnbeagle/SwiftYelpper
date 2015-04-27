@@ -18,7 +18,6 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
 
     var yelpClient: YelpClient?
     var searchTerm = "Restaurants"
-    var currentLocation: CLLocation?
     var offset = 0
     var filters = [String: AnyObject]()
     var places: [Place]?
@@ -26,6 +25,10 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
     var isInitialLoad = true
 
     var searchView: UIView?
+
+    var locationManager: CLLocationManager?
+
+    var currentLocation: CLLocation?
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var filterButton: UIBarButtonItem!
@@ -39,7 +42,6 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
         places = []
 
         tableView.hidden = true
-        currentLocation = CLLocation(latitude: 37.7873589, longitude: -122.408227)!
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -49,7 +51,27 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
         createSearchBarView()
         createLoadingIcon()
 
+        if locationManager == nil {
+            locationManager = CLLocationManager()
+            locationManager!.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager!.delegate = self
+        }
+        locationManager?.startUpdatingLocation()
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        var model = UIDevice.currentDevice().model
+        if model.lowercaseString.rangeOfString("simulator") != nil {
+            currentLocation = CLLocation(latitude: 37.7873589, longitude: -122.408227)!
+        } else {
+            currentLocation = locationManager?.location
+        }
         search()
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        locationManager?.stopUpdatingLocation()
     }
 
     override func didReceiveMemoryWarning() {
@@ -89,6 +111,9 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
     }
 
     func search() {
+        if currentLocation == nil {
+            return
+        }
         if isInitialLoad {
             MBProgressHUD.showHUDAddedTo(view, animated: true)
         }
@@ -99,6 +124,8 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
                 if let data = response as? Dictionary<String, AnyObject> {
                     let businesses = data["businesses"] as? [NSDictionary]
                     if let businesses = businesses {
+                        println("\(businesses.count) found")
+                        self.tableView.tableFooterView?.hidden = (businesses.count == 0)
                         self.places! += Place.placesWithArray(businesses)
                         self.tableView.reloadData()
                         if self.offset == 0 {
@@ -112,7 +139,7 @@ class ListingViewController: UIViewController, UITextFieldDelegate {
             },
             failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
                 println(error)
-                self.tableView.hidden = false
+                self.tableView.hidden = true
                 MBProgressHUD.hideHUDForView(self.view, animated: true)
         })
     }
@@ -195,5 +222,12 @@ extension ListingViewController: FilterViewControllerDelegate {
         offset = 0
         self.filters = filters
         search()
+    }
+}
+
+// MARK: - CLLocationManagerDelegate
+extension ListingViewController: CLLocationManagerDelegate {
+    func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
+        currentLocation = newLocation
     }
 }
