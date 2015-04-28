@@ -2,7 +2,7 @@
 
 This is a Yelp search app using the [Yelp API](http://developer.rottentomatoes.com/docs/read/JSON).
 
-Time spent: `<Number of hours spent>`
+Time spent: 15 hours
 
 ### Features
 
@@ -32,6 +32,12 @@ Time spent: `<Number of hours spent>`
 
 ### Walkthrough
 
-![Video Walkthrough](...)
+![Video Walkthrough](SwiftYelpper.gif)
+
+### Known issues
+- Filter selections are not persisted.
+- Table is empty when there's no result with no obvious messaging.
+- Inconsistent nav bar font size in the details screen.
+- Used a UISwitch for all filters - UX is not awesome as you have to tap on the switch as opposed to the entire row.
 
 
